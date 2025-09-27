@@ -5,7 +5,6 @@ import { FormEvent, useState } from "react";
 
 export default function Footer() {
   const [email, setEmail] = useState("");
-  /* const toast = useToast(); */
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
