@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Container, SimpleGrid, Heading, Text, HStack, Input, Button, Link, VStack, Flex } from "@chakra-ui/react";
+import { Box, Container, Heading, Text, HStack, Input, Button, Link, VStack, Flex } from "@chakra-ui/react";
 import { FormEvent, useState } from "react";
 
 export default function Footer() {
