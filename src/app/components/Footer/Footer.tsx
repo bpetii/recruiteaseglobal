@@ -21,7 +21,7 @@ export default function Footer() {
   };
 
   return (
-    <Container px={[3, 5]} maxW="container.xl" py={{ base: 8, md: 8, lg: 10 }} borderTop="1px solid" borderColor="blackAlpha.200" bg="white">
+    <Container px={[3, 5]} py={{ base: 8, md: 8, lg: 10 }} borderTop="1px solid" borderColor="blackAlpha.200" bg="white">
       <Flex justifyContent="space-between" direction={["column", "row"]} gap={{ base: 10, md: 16 }}>
         {/* Left: Newsletter */}
         <VStack align="start" gap={6} maxW="4xl">

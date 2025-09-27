@@ -4,16 +4,7 @@ import "./globals.css";
 import Footer from "./components/Footer/Footer";
 import Navbar from "./components/Navbar/Navbar";
 import ChakraProvider from "./providers/chakra-provider/chakra-provider";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { Box, Flex } from "@chakra-ui/react";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -29,13 +20,15 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ChakraProvider>
-          <Navbar />
-
-          {/* Page content */}
-          <main>{children}</main>
-
-          {/* 🔻 Always at the bottom */}
-          <Footer />
+          <Box h={["100dvh", "100vh"]}>
+            <Flex flexDir="column" minH="100%" justify="center">
+              <Navbar />
+              <Flex flex={1} flexDir="column" position="relative">
+                {children}
+              </Flex>
+            </Flex>
+            <Footer />
+          </Box>
         </ChakraProvider>
       </body>
     </html>

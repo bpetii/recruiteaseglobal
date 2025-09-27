@@ -7,17 +7,17 @@ const TEAM = [
   {
     name: "Sáfrány Réka",
     role: "Recruiter",
-    image: "/images/team/reka.jpg",
+    image: "/team/person-1.jpg",
   },
   {
     name: "Biró Péter",
     role: "Design Director",
-    image: "/images/team/peter.jpg",
+    image: "/team/person-2.jpg",
   },
   {
     name: "Karl Holland",
     role: "Sales Manager",
-    image: "/images/team/karl.jpg",
+    image: "/team/person-3.jpg",
   },
 ];
 

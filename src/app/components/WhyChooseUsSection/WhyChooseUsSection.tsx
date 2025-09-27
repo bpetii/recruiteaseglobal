@@ -33,7 +33,7 @@ export default function WhyChooseUsSection() {
       <Container maxW="7xl">
         {/* Header */}
         <VStack gap={4} textAlign="center" mb={{ base: 10, md: 14 }}>
-          <Heading as="h2" fontSize={{ base: "3xl", md: "5xl" }} fontWeight="700" letterSpacing="-0.01em">
+          <Heading as="h2" textAlign="center" fontSize={{ base: "3xl", md: "5xl" }} mb={{ base: 10, md: 14 }} fontWeight="700">
             Miért válassz minket?
           </Heading>
         </VStack>

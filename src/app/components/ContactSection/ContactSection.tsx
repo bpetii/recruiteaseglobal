@@ -8,7 +8,7 @@ export default function ContactSection() {
   const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setForm((s) => ({ ...s, [e.target.name]: e.target.value }));
 
   return (
-    <Box as="section" bg="gray.50" py={{ base: 12, md: 20 }}>
+    <Box as="section" py={{ base: 12, md: 20 }}>
       <Container maxW="7xl">
         <Heading as="h2" textAlign={{ base: "left", md: "center" }} fontSize={{ base: "3xl", md: "5xl" }} mb={{ base: 8, md: 12 }} fontWeight="700">
           Lépj kapcsolatba velünk!
@@ -18,13 +18,7 @@ export default function ContactSection() {
           {/* Left: Image */}
           <GridItem>
             <Box bg="gray.100" rounded="lg" overflow="hidden" shadow="sm">
-              <Image
-                src="/images/contact/typing.jpg" /* replace with your image */
-                alt="Kapcsolat"
-                w="100%"
-                h={{ base: "240px", md: "520px" }}
-                objectFit="cover"
-              />
+              <Image src="/contact.jpg" /* replace with your image */ alt="Kapcsolat" w="100%" h={{ base: "240px", md: "520px" }} objectFit="cover" />
             </Box>
           </GridItem>
 

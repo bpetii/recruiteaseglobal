@@ -8,19 +8,19 @@ const PRODUCTS = [
     title: "Alap HR Csomag",
     description: "Alapvető HR támogatás kisvállalkozások számára.",
     price: "29 900 Ft",
-    image: "/images/products/basic.jpg",
+    image: "/products/product-1.jpg",
   },
   {
     title: "Prémium Toborzás",
     description: "AI-alapú előszűrés és profi jelöltkezelés.",
     price: "59 900 Ft",
-    image: "/images/products/premium.jpg",
+    image: "/products/product-2.jpg",
   },
   {
     title: "Employer Branding",
     description: "Márkaépítés, tartalomgyártás és karrieroldal optimalizálás.",
     price: "89 900 Ft",
-    image: "/images/products/branding.jpg",
+    image: "/products/product-3.jpg",
   },
 ];
 

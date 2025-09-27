@@ -7,39 +7,39 @@ const SERVICES = [
   {
     title: "Immigráció és vízumügyintézés",
     description: "Vízum, tartózkodási engedély és relokáció teljes körű intézése.",
-    image: "/images/services/immigration.jpg",
+    image: "/services/service-1.jpg",
   },
   {
     title: "Toborzás és kiválasztás",
     description: "Fejvadászat, AI-alapú előszűrés, shortlist és interjúk lebonyolítása.",
-    image: "/images/services/recruitment.jpg",
+    image: "/services/service-2.jpg",
   },
   {
     title: "Vállalati HR megoldások",
     description: "HR audit, onboarding, mobilitás és belső működés támogatása.",
-    image: "/images/services/hr-solutions.jpg",
+    image: "/services/service-3.jpg",
   },
   {
     title: "Digitális és AI-alapú HR",
     description: "Job Fit Score, chatbot, videóinterjú és automatizált dokumentumkezelés.",
-    image: "/images/services/digital-hr.jpg",
+    image: "/services/service-4.jpg",
   },
   {
     title: "Tréningek és fejlesztések",
     description: "Vezetői és csapattréningek: kommunikáció, interjútechnika, onboarding.",
-    image: "/images/services/trainings.jpg",
+    image: "/services/service-5.jpg",
   },
   {
     title: "Employer branding és kommunikáció",
     description: "Tartalomgyártás, videós álláshirdetések és karrieroldal optimalizálás.",
-    image: "/images/services/employer-branding.jpg",
+    image: "/services/service-6.jpg",
   },
 ];
 
 export default function ServicesSection() {
   return (
     <Container py={{ base: 14, md: 20 }}>
-      <Heading as="h2" textAlign="center" fontSize={{ base: "3xl", md: "4xl" }} mb={{ base: 10, md: 14 }} fontWeight="600">
+      <Heading as="h2" textAlign="center" fontSize={{ base: "3xl", md: "5xl" }} mb={{ base: 10, md: 14 }} fontWeight="700">
         Szolgáltatásaink
       </Heading>
 

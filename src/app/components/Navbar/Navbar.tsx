@@ -22,8 +22,8 @@ function NavLink({ href, children, isActive, onClick }: { href: string; children
       px={3}
       py={2}
       fontWeight={500}
-      color="whiteAlpha.900"
-      _hover={{ textDecoration: "none", color: "white" }}
+      color="black"
+      _hover={{ textDecoration: "none", color: "gray.700" }}
       position="relative"
       _after={
         isActive
@@ -34,7 +34,7 @@ function NavLink({ href, children, isActive, onClick }: { href: string; children
               right: 0,
               bottom: 0,
               height: "2px",
-              bg: "white",
+              bg: "black",
               borderRadius: "full",
               transition: "all 0.2s ease",
             }
@@ -52,10 +52,13 @@ export default function Navbar() {
 
   // lock background scroll when menu open
   useEffect(() => {
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = open ? "hidden" : prev || "";
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
     return () => {
-      document.body.style.overflow = prev;
+      document.body.style.overflow = ""; // Re-enable scroll when component is unmounted
     };
   }, [open]);
 
@@ -64,7 +67,7 @@ export default function Navbar() {
       as="header"
       position="sticky"
       top={0}
-      bg="black"
+      bg="gray.100"
       right={0}
       left={0}
       py={[5, 5]}
@@ -72,13 +75,11 @@ export default function Navbar() {
       bgGradient="linear(to-r, #1b1a19, #2a2827, #2f2d2c)"
       bgClip="padding-box"
       backdropFilter="saturate(140%) blur(6px)"
-      borderBottom="1px solid"
-      borderColor="whiteAlpha.200"
     >
       <Container px={[3, 5]} bg="inherit">
         <Flex align="center" justify="space-between">
           <ChakraLink as={NextLink} href="/" _hover={{ textDecoration: "none" }}>
-            <Text fontSize={{ base: "lg", md: "2xl" }} fontWeight={600} letterSpacing="wide" color="white">
+            <Text fontSize={{ base: "lg", md: "2xl" }} fontWeight={600} letterSpacing="wide" color="black">
               recruiteaseglobal
             </Text>
           </ChakraLink>
@@ -101,7 +102,7 @@ export default function Navbar() {
           <IconButton
             aria-label="Menü megnyitása"
             variant="ghost"
-            color="white"
+            color="black"
             display={{ base: "inline-flex", lg: "none" }}
             onClick={open ? onClose : onOpen}
             fontSize="2xl"

@@ -36,7 +36,7 @@ export default function AboutUsSection() {
         <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 8, md: 12 }} alignItems="center">
           <Box rounded="lg" overflow="hidden" shadow="sm" bg="gray.100">
             <Image
-              src="/images/about/team-work.jpg" // <- replace with your image
+              src="/about.jpg" // <- replace with your image
               alt="Our team"
               w="100%"
               h={{ base: "260px", md: "420px" }}
