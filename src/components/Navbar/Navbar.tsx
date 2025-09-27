@@ -7,6 +7,7 @@ import { IconMenu2, IconX } from "@tabler/icons-react";
 import { useEffect } from "react";
 
 const LINKS = [
+  { href: "/", label: "Kezdőlap" },
   { href: "/services", label: "Szolgáltatásaink" },
   { href: "/packages", label: "Csomagajánlatok" },
   { href: "/about-us", label: "Rólunk" },
@@ -84,7 +85,7 @@ export default function Navbar() {
           </ChakraLink>
 
           {/* desktop */}
-          <HStack gap={10} display={{ base: "none", lg: "flex" }}>
+          <HStack gap={5} display={{ base: "none", lg: "flex" }}>
             {LINKS.map((l) => (
               <NavLink key={l.href} href={l.href} isActive={pathname === l.href}>
                 {l.label}
@@ -154,16 +155,9 @@ export default function Navbar() {
         </Container>
 
         {/* centered big links */}
-        <Flex
-          direction="column"
-          align="center"
-          justify="center"
-          px={6}
-          h="100%" // full height minus header
-          gap={12} // space between links and button
-        >
+        <Flex direction="column" align="center" pt={10} gap={"70px"}>
           {/* nav links */}
-          <VStack as="nav" gap={8} textAlign="center">
+          <VStack justify="start" as="nav" gap={8} textAlign="center">
             {LINKS.map((l, i) => (
               <ChakraLink key={l.href} as={NextLink} href={l.href} onClick={onClose} _hover={{ textDecoration: "none" }}>
                 <Text
