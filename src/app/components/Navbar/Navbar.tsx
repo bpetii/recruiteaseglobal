@@ -2,7 +2,7 @@
 
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
-import { Box, Container, Flex, HStack, IconButton, Link as ChakraLink, Button, Stack, Text, useDisclosure, VStack } from "@chakra-ui/react";
+import { Box, Container, Flex, HStack, IconButton, Link as ChakraLink, Button, Text, useDisclosure, VStack } from "@chakra-ui/react";
 import { IconMenu2, IconX } from "@tabler/icons-react";
 import { useEffect } from "react";
 
