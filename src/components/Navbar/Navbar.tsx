@@ -2,9 +2,10 @@
 
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
-import { Box, Container, Flex, HStack, IconButton, Link as ChakraLink, Button, Text, useDisclosure, VStack } from "@chakra-ui/react";
+import { Box, Container, Flex, HStack, IconButton, Link as ChakraLink, Button, Text, useDisclosure, VStack, Heading } from "@chakra-ui/react";
 import { IconMenu2, IconX } from "@tabler/icons-react";
 import { useEffect } from "react";
+import { Logo } from "../Logo/Logo";
 
 const LINKS = [
   { href: "/", label: "Kezdőlap" },
@@ -79,9 +80,7 @@ export default function Navbar() {
       <Container px={[3, 5]} bg="inherit">
         <Flex align="center" justify="space-between">
           <ChakraLink as={NextLink} href="/" _hover={{ textDecoration: "none" }}>
-            <Text fontSize={{ base: "lg", md: "2xl" }} fontWeight={600} letterSpacing="wide" color="black">
-              recruiteaseglobal
-            </Text>
+            <Logo />
           </ChakraLink>
 
           {/* desktop */}
@@ -144,9 +143,7 @@ export default function Navbar() {
         <Container py={5} px={[3, 5]} bg="inherit">
           <Flex align="center" justify="space-between">
             <ChakraLink as={NextLink} href="/" onClick={onClose} _hover={{ textDecoration: "none" }}>
-              <Text fontSize="lg" fontWeight={600} color="black">
-                recruiteaseglobal
-              </Text>
+              <Logo />
             </ChakraLink>
             <IconButton aria-label="Menü bezárása" variant="ghost" onClick={onClose} fontSize="2xl">
               <IconX size={36} />

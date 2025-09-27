@@ -2,30 +2,63 @@
 
 import NextLink from "next/link";
 import { Box, Container, Heading, Text, VStack, Button, Link as ChakraLink } from "@chakra-ui/react";
+import { keyframes } from "@chakra-ui/system"; // ✅ v3 location
+import { useEffect, useMemo, useState } from "react";
+
+const GREETINGS = ["Hola", "Hello", "Szia", "Bonjour", "Ciao", "Hallo"];
+
+const fadeSlideIn = keyframes`
+  from { opacity: 0; transform: translateY(6px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+`;
+
+function AnimatedGreeting() {
+  const [i, setI] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => setI((n) => (n + 1) % GREETINGS.length), 1300);
+    return () => clearInterval(id);
+  }, []);
+
+  const anim = `${fadeSlideIn} .25s ease`;
+
+  return (
+    <Text
+      key={GREETINGS[i]} // re-trigger animation on change
+      animation={anim}
+      as="span"
+      fontWeight="700"
+      letterSpacing="wide"
+      fontSize={{ base: "4xl", md: "5xl" }}
+      color="white"
+      px={3}
+      py={1}
+      borderRadius="full"
+      bg="whiteAlpha.200"
+      backdropFilter="saturate(140%) blur(4px)"
+      display="inline-block"
+    >
+      {GREETINGS[i]} 👋
+    </Text>
+  );
+}
 
 /**
  * Props:
  * - bgImage: url to the hero background
  */
-export default function Hero({
-  bgImage = "/desktop.jpg", // change to your image path
-}: {
-  bgImage?: string;
-}) {
+export default function Hero({ bgImage = "/desktop.jpg" }: { bgImage?: string }) {
   return (
     <Box
       as="section"
       position="relative"
-      // full-bleed background
       bgImage={`url(${bgImage})`}
       bgSize="cover"
       bgPos="center"
       bgRepeat="no-repeat"
-      // height: full viewport minus navbar (~64px mobile / ~72px desktop)
       minH={{ base: "calc(100dvh - 56px)", md: "calc(100dvh - 72px)" }}
       display="flex"
       alignItems="center"
-      // vignette / gradient overlay (using two layers for depth)
       _before={{
         content: '""',
         position: "absolute",
@@ -41,6 +74,9 @@ export default function Hero({
     >
       <Container position="relative" zIndex={1}>
         <VStack gap={{ base: 6, md: 8 }} textAlign="center" align="center" maxW="full">
+          {/* Animated greeting chip */}
+          <AnimatedGreeting />
+
           <Heading as="h1" color="white" fontWeight="700" letterSpacing="-0.02em" lineHeight="1.05" fontSize={{ base: "5xl", md: "6xl", lg: "7xl" }}>
             Connect talents worldwide!
           </Heading>
