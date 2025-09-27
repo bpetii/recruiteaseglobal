@@ -1,0 +1,197 @@
+"use client";
+
+import NextLink from "next/link";
+import { usePathname } from "next/navigation";
+import { Box, Container, Flex, HStack, IconButton, Link as ChakraLink, Button, Stack, Text, useDisclosure, VStack } from "@chakra-ui/react";
+import { IconMenu2, IconX } from "@tabler/icons-react";
+import { useEffect } from "react";
+
+const LINKS = [
+  { href: "/szolgaltatasaink", label: "Szolgáltatásaink" },
+  { href: "/csomagok", label: "Csomagajánlatok" },
+  { href: "/about-us", label: "Rólunk" },
+  { href: "/contact", label: "Kapcsolat" },
+];
+
+function NavLink({ href, children, isActive, onClick }: { href: string; children: React.ReactNode; isActive?: boolean; onClick?: () => void }) {
+  return (
+    <ChakraLink
+      as={NextLink}
+      href={href}
+      onClick={onClick}
+      px={3}
+      py={2}
+      fontWeight={500}
+      color="whiteAlpha.900"
+      _hover={{ textDecoration: "none", color: "white" }}
+      position="relative"
+      _after={
+        isActive
+          ? {
+              content: '""',
+              position: "absolute",
+              left: 0,
+              right: 0,
+              bottom: 0,
+              height: "2px",
+              bg: "white",
+              borderRadius: "full",
+              transition: "all 0.2s ease",
+            }
+          : undefined
+      }
+    >
+      {children}
+    </ChakraLink>
+  );
+}
+
+export default function Navbar() {
+  const { open, onOpen, onClose } = useDisclosure();
+  const pathname = usePathname();
+
+  // lock background scroll when menu open
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = open ? "hidden" : prev || "";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [open]);
+
+  return (
+    <Box
+      as="header"
+      position="sticky"
+      top={0}
+      bg="black"
+      right={0}
+      left={0}
+      py={[5, 5]}
+      zIndex={100}
+      bgGradient="linear(to-r, #1b1a19, #2a2827, #2f2d2c)"
+      bgClip="padding-box"
+      backdropFilter="saturate(140%) blur(6px)"
+      borderBottom="1px solid"
+      borderColor="whiteAlpha.200"
+    >
+      <Container px={[3, 5]} bg="inherit">
+        <Flex align="center" justify="space-between">
+          <ChakraLink as={NextLink} href="/" _hover={{ textDecoration: "none" }}>
+            <Text fontSize={{ base: "lg", md: "2xl" }} fontWeight={600} letterSpacing="wide" color="white">
+              recruiteaseglobal
+            </Text>
+          </ChakraLink>
+
+          {/* desktop */}
+          <HStack gap={10} display={{ base: "none", lg: "flex" }}>
+            {LINKS.map((l) => (
+              <NavLink key={l.href} href={l.href} isActive={pathname === l.href}>
+                {l.label}
+              </NavLink>
+            ))}
+            <ChakraLink as={NextLink} href="/consultation" _hover={{ textDecoration: "none" }}>
+              <Button rounded="full" px={6} py={6} color="blackAlpha.900" bg="#AFC7E9" _hover={{ bg: "#9FBAE4" }} fontWeight={600}>
+                Konzultáció
+              </Button>
+            </ChakraLink>
+          </HStack>
+
+          {/* mobile toggle */}
+          <IconButton
+            aria-label="Menü megnyitása"
+            variant="ghost"
+            color="white"
+            display={{ base: "inline-flex", lg: "none" }}
+            onClick={open ? onClose : onOpen}
+            fontSize="2xl"
+          >
+            {open ? <IconX size={36} /> : <IconMenu2 size={36} />}
+          </IconButton>
+        </Flex>
+      </Container>
+
+      {/* BACKDROP with fade (CSS only) */}
+      <Box
+        position="fixed"
+        inset={0}
+        bg="blackAlpha.300"
+        h={"100dvh"}
+        zIndex={109}
+        display={{ base: "block", lg: "none" }}
+        opacity={open ? 1 : 0}
+        transition="opacity .2s ease"
+        pointerEvents={open ? "auto" : "none"}
+        onClick={onClose}
+      />
+
+      {/* FULLSCREEN OVERLAY with slide + fade (CSS only) */}
+      <Box
+        position="fixed"
+        inset={0}
+        bg="gray.100"
+        h={"100dvh"}
+        overflow="hidden"
+        zIndex={110}
+        display={{ base: "block", lg: "none" }}
+        transform={open ? "translateY(0)" : "translateY(-10px)"}
+        opacity={open ? 1 : 0}
+        transition="transform .22s ease, opacity .22s ease"
+        pointerEvents={open ? "auto" : "none"}
+      >
+        {/* overlay header */}
+        <Container py={5} px={[3, 5]} bg="inherit">
+          <Flex align="center" justify="space-between">
+            <ChakraLink as={NextLink} href="/" onClick={onClose} _hover={{ textDecoration: "none" }}>
+              <Text fontSize="lg" fontWeight={600} color="black">
+                recruiteaseglobal
+              </Text>
+            </ChakraLink>
+            <IconButton aria-label="Menü bezárása" variant="ghost" onClick={onClose} fontSize="2xl">
+              <IconX size={36} />
+            </IconButton>
+          </Flex>
+        </Container>
+
+        {/* centered big links */}
+        <Flex
+          direction="column"
+          align="center"
+          justify="center"
+          px={6}
+          h="100%" // full height minus header
+          gap={12} // space between links and button
+        >
+          {/* nav links */}
+          <VStack as="nav" gap={8} textAlign="center">
+            {LINKS.map((l, i) => (
+              <ChakraLink key={l.href} as={NextLink} href={l.href} onClick={onClose} _hover={{ textDecoration: "none" }}>
+                <Text
+                  fontSize="5xl"
+                  lineHeight="1.1"
+                  fontWeight={500}
+                  color="black"
+                  transition="transform .2s ease, opacity .2s ease"
+                  style={{ transitionDelay: `${i * 60}ms` }}
+                >
+                  {l.label}
+                </Text>
+              </ChakraLink>
+            ))}
+          </VStack>
+
+          {/* CTA button */}
+          <Box textAlign="center">
+            <ChakraLink as={NextLink} href="/consultation" _hover={{ textDecoration: "none" }} onClick={onClose}>
+              <Button w="200px" h="72px" rounded="full" bg="black" color="white" fontSize="xl" _hover={{ bg: "blackAlpha.800" }} shadow="lg">
+                Konzultáció
+              </Button>
+            </ChakraLink>
+          </Box>
+        </Flex>
+
+        {/* bottom pill CTA */}
+      </Box>
+    </Box>
+  );
+}
