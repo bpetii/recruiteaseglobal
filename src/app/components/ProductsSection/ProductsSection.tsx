@@ -26,8 +26,8 @@ const PRODUCTS = [
 
 export default function ProductsSection() {
   return (
-    <Box as="section" py={{ base: 14, md: 20 }}>
-      <Container maxW="7xl">
+    <Box as="section" bg="gray.50">
+      <Container maxW="7xl" py={{ base: 14, md: 20 }}>
         <Heading as="h2" textAlign="center" fontSize={{ base: "3xl", md: "5xl" }} mb={{ base: 10, md: 14 }} fontWeight="700">
           Termékeink
         </Heading>

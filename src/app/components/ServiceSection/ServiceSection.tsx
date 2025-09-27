@@ -38,16 +38,18 @@ const SERVICES = [
 
 export default function ServicesSection() {
   return (
-    <Container py={{ base: 14, md: 20 }}>
-      <Heading as="h2" textAlign="center" fontSize={{ base: "3xl", md: "5xl" }} mb={{ base: 10, md: 14 }} fontWeight="700">
-        Szolgáltatásaink
-      </Heading>
+    <Box bg="gray.50">
+      <Container py={{ base: 14, md: 20 }}>
+        <Heading as="h2" textAlign="center" fontSize={{ base: "3xl", md: "5xl" }} mb={{ base: 10, md: 14 }} fontWeight="700">
+          Szolgáltatásaink
+        </Heading>
 
-      <SimpleGrid columns={{ base: 1, sm: 2, md: 3, xl: 6 }} gap={{ base: 6, md: 8 }}>
-        {SERVICES.map((s) => (
-          <ServiceCard key={s.title} title={s.title} description={s.description} image={s.image} />
-        ))}
-      </SimpleGrid>
-    </Container>
+        <SimpleGrid columns={{ base: 1, sm: 2, md: 3, xl: 6 }} gap={{ base: 6, md: 8 }}>
+          {SERVICES.map((s) => (
+            <ServiceCard key={s.title} title={s.title} description={s.description} image={s.image} />
+          ))}
+        </SimpleGrid>
+      </Container>
+    </Box>
   );
 }

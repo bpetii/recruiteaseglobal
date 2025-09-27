@@ -53,7 +53,7 @@ export default function Hero({
             A RecruitEase Global a nemzetközi fejvadászat és HR szolgáltatások szakértője – vízumügyintézéstől az onboardingig.
           </Text>
 
-          <ChakraLink as={NextLink} href="/konzultacio" _hover={{ textDecoration: "none" }}>
+          <ChakraLink as={NextLink} href="/consultation" _hover={{ textDecoration: "none" }}>
             <Button
               rounded="full"
               px={{ base: 8, md: 10 }}
