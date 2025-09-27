@@ -50,7 +50,6 @@ export default function Navbar() {
   const { open, onOpen, onClose } = useDisclosure();
   const pathname = usePathname();
 
-  // lock background scroll when menu open
   useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
@@ -58,7 +57,7 @@ export default function Navbar() {
       document.body.style.overflow = "";
     }
     return () => {
-      document.body.style.overflow = ""; // Re-enable scroll when component is unmounted
+      document.body.style.overflow = "";
     };
   }, [open]);
 
