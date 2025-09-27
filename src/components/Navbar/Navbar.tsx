@@ -7,8 +7,8 @@ import { IconMenu2, IconX } from "@tabler/icons-react";
 import { useEffect } from "react";
 
 const LINKS = [
-  { href: "/szolgaltatasaink", label: "Szolgáltatásaink" },
-  { href: "/csomagok", label: "Csomagajánlatok" },
+  { href: "/services", label: "Szolgáltatásaink" },
+  { href: "/packages", label: "Csomagajánlatok" },
   { href: "/about-us", label: "Rólunk" },
   { href: "/contact", label: "Kapcsolat" },
 ];

@@ -24,11 +24,9 @@ export default function RootLayout({
           <ChakraProvider>
             <Toaster />
             <Box h={["100dvh", "100vh"]}>
-              <Flex flexDir="column" minH="100%" justify="center">
+              <Flex flexDir="column" justify="center">
                 <Navbar />
-                <Flex flex={1} flexDir="column" position="relative">
-                  {children}
-                </Flex>
+                <Box minH="100dvh">{children}</Box>
               </Flex>
               <Footer />
             </Box>

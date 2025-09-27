@@ -118,7 +118,7 @@ export default function ConsultationLayout({ appointments }: { appointments: App
   });
 
   return (
-    <Container maxW="6xl" py={{ base: 10, md: 16 }} minH="100vh">
+    <Container maxW="6xl" py={{ base: 10, md: 16 }}>
       <Heading as="h2" textAlign="center" fontSize={{ base: "3xl", md: "4xl" }} mb={{ base: 10, md: 14 }} fontWeight="600">
         Konzultáció foglalás
       </Heading>
