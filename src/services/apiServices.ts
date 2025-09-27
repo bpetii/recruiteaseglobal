@@ -1,0 +1,23 @@
+import { apiClient } from "@/app/apiClient";
+
+export const subscribeNewsLetter = async (email: string) => {
+  return await apiClient(`/api/newsletter`, {
+    method: "POST",
+    body: { email },
+  });
+};
+
+export const submitAppointment = async (info: {
+  name: string;
+  email: string;
+  notes: string;
+  phoneNumber: string;
+  date: string;
+  time: string;
+  timezone: string;
+}) => {
+  return await apiClient(`/api/appointment`, {
+    method: "POST",
+    body: info,
+  });
+};

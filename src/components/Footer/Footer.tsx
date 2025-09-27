@@ -1,23 +1,31 @@
 "use client";
 
+import { subscribeNewsLetter } from "@/services/apiServices";
 import { Box, Container, Heading, Text, HStack, Input, Button, Link, VStack, Flex } from "@chakra-ui/react";
-import { FormEvent, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
+import { toaster } from "../ui/toaster";
 
 export default function Footer() {
   const [email, setEmail] = useState("");
 
-  const onSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    // TODO: send to your newsletter endpoint
-    /*  toast({
-      title: 'Köszönjük!',
-      description: 'Sikeresen feliratkoztál a hírlevelünkre.',
-      status: 'success',
-      duration: 3000,
-      isClosable: true,
-    }); */
-    setEmail("");
-  };
+  const handleSubscribe = useMutation({
+    mutationFn: async () => {
+      await subscribeNewsLetter(email);
+    },
+    onSuccess: () => {
+      toaster.create({
+        description: "Sikeres feliratkozás",
+      });
+      setEmail("");
+    },
+    onError: (error: any) => {
+      toaster.create({
+        description: "Sikertelen feliratkozás: " + error.message,
+      });
+      console.error("Error while adding rental object note:", error);
+    },
+  });
 
   return (
     <Box borderTop="1px solid" borderColor="blackAlpha.200" w="full">
@@ -32,7 +40,7 @@ export default function Footer() {
               Iratkozz fel az email címeddel, hogy megkapd híreinket és frissítéseinket.
             </Text>
 
-            <Box as="form" onSubmit={onSubmit} w="full">
+            <Box w="full">
               <HStack gap={{ base: 3, md: 4 }} align="center" flexWrap={{ base: "wrap", md: "nowrap" }}>
                 <Input
                   type="email"
@@ -55,6 +63,8 @@ export default function Footer() {
                   h={{ base: 12, md: 14 }}
                   rounded="full"
                   bg="black"
+                  onClick={() => handleSubscribe.mutate()}
+                  loading={handleSubscribe.isPending}
                   color="white"
                   _hover={{ bg: "blackAlpha.800" }}
                   fontWeight="700"

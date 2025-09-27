@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Footer from "./components/Footer/Footer";
-import Navbar from "./components/Navbar/Navbar";
+import Footer from "../components/Footer/Footer";
+import Navbar from "../components/Navbar/Navbar";
 import ChakraProvider from "./providers/chakra-provider/chakra-provider";
+import QueryClientProvider from "../../QueryClientProvider";
 import { Box, Flex } from "@chakra-ui/react";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,17 +20,20 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ChakraProvider>
-          <Box h={["100dvh", "100vh"]}>
-            <Flex flexDir="column" minH="100%" justify="center">
-              <Navbar />
-              <Flex flex={1} flexDir="column" position="relative">
-                {children}
+        <QueryClientProvider>
+          <ChakraProvider>
+            <Toaster />
+            <Box h={["100dvh", "100vh"]}>
+              <Flex flexDir="column" minH="100%" justify="center">
+                <Navbar />
+                <Flex flex={1} flexDir="column" position="relative">
+                  {children}
+                </Flex>
               </Flex>
-            </Flex>
-            <Footer />
-          </Box>
-        </ChakraProvider>
+              <Footer />
+            </Box>
+          </ChakraProvider>
+        </QueryClientProvider>
       </body>
     </html>
   );
