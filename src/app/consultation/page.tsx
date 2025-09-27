@@ -1,5 +1,7 @@
 // app/page.tsx
 
+export const revalidate = 0;
+
 import prisma from "@/prisma/client";
 import ConsultationLayout from "../../components/Consultation/Consultation";
 

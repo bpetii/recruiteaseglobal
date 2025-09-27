@@ -12,16 +12,8 @@ import { useRouter } from "next/navigation";
 const TZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
 const TIMES = ["09:00", "09:50", "10:40", "11:30", "12:20", "13:10", "14:00", "14:50", "15:40"];
 
-type AppointmentLite = { date: string; time: string }; // from server: date = "YYYY-MM-DD"
+type AppointmentLite = { date: string; time: string };
 type Info = { name: string; email: string; phone: string; notes: string };
-
-// make a YYYY-MM-DD key in UTC (matches server's toISOString().slice(0,10))
-function dateToUtcKey(d: Date) {
-  const y = d.getUTCFullYear();
-  const m = String(d.getUTCMonth() + 1).padStart(2, "0");
-  const day = String(d.getUTCDate()).padStart(2, "0");
-  return `${y}-${m}-${day}`;
-}
 
 export default function ConsultationLayout({ appointments }: { appointments: AppointmentLite[] }) {
   console.log(appointments);
@@ -60,8 +52,6 @@ export default function ConsultationLayout({ appointments }: { appointments: App
     const set = bookedMap.get(key);
     return !!set && set.size >= TIMES.length;
   }
-
-  console.log(isoDay);
 
   // 4) Time-slot check stays the same but now receives the correct key
   function isTimeBooked(dateKey: string | null, time: string) {

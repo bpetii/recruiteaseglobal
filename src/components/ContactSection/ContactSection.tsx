@@ -33,13 +33,13 @@ export default function ContactSection() {
                 <HStack gap={4}>
                   <Box flex="1">
                     <Text mb={2} color="gray.700" fontSize="sm">
-                      First Name
+                      Vezetéknév
                     </Text>
                     <Input name="firstName" value={form.firstName} onChange={onChange} />
                   </Box>
                   <Box flex="1">
                     <Text mb={2} color="gray.700" fontSize="sm">
-                      Last Name
+                      Keresztnév
                     </Text>
                     <Input name="lastName" value={form.lastName} onChange={onChange} />
                   </Box>

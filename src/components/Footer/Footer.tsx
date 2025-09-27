@@ -15,13 +15,16 @@ export default function Footer() {
     },
     onSuccess: () => {
       toaster.create({
+        type: "success",
         description: "Sikeres feliratkozás",
       });
       setEmail("");
     },
     onError: (error: any) => {
       toaster.create({
-        description: "Sikertelen feliratkozás: " + error.message,
+        type: "error",
+        title: "Sikertelen feliratkozás",
+        description: error.message || "Hiba történt a feliratkozás során.",
       });
       console.error("Error while adding rental object note:", error);
     },

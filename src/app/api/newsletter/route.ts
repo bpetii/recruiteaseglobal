@@ -9,6 +9,12 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Email is required" }, { status: 400 });
     }
 
+    const existing = await prisma.newsletterSubscription.findUnique({ where: { email } });
+
+    if (existing) {
+      return NextResponse.json({ error: "Ez az e-mail cím már fel van iratkozva a hírlevélre." }, { status: 400 });
+    }
+
     const subscription = await prisma.newsletterSubscription.upsert({
       where: { email },
       update: {},
