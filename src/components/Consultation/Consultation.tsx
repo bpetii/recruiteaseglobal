@@ -9,14 +9,13 @@ import { toaster } from "../ui/toaster";
 import { submitAppointment } from "@/services/apiServices";
 import { useRouter } from "next/navigation";
 
-const TZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
+const TZ = "Europe/Budapest";
 const TIMES = ["09:00", "09:50", "10:40", "11:30", "12:20", "13:10", "14:00", "14:50", "15:40"];
 
 type AppointmentLite = { date: string; time: string };
 type Info = { name: string; email: string; phone: string; notes: string };
 
 export default function ConsultationLayout({ appointments }: { appointments: AppointmentLite[] }) {
-  console.log(appointments);
   const router = useRouter();
 
   // Map: "YYYY-MM-DD" -> Set<time>
@@ -130,7 +129,7 @@ export default function ConsultationLayout({ appointments }: { appointments: App
           <Heading as="h3" fontSize={{ base: "lg", md: "xl" }} mb={1}>
             Konzultáció Kovács Amandával
           </Heading>
-          <Text color="gray.700">50 minutes</Text>
+          <Text color="gray.700">50 perc</Text>
           {step === 2 && selected && slot && (
             <Box mt={4} p={4} rounded="md" bg="gray.50" border="1px solid" borderColor="gray.200">
               <VStack align="start" gap={1}>
@@ -157,7 +156,10 @@ export default function ConsultationLayout({ appointments }: { appointments: App
                   setSlot(null);
                 }}
                 weekStartsOn={1}
-                disabled={(date) => isDayFullyBooked(date)} // now correct
+                disabled={[
+                  { before: new Date() }, // disable all dates before today
+                  (date) => isDayFullyBooked(date), // keep your custom rule
+                ]}
                 styles={{
                   day: { fontSize: "14px" },
                   head_cell: { fontSize: "12px", color: "#6B7280" },

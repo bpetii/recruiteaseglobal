@@ -4,7 +4,7 @@ import { Box, Container, Heading, Text, VStack, Button } from "@chakra-ui/react"
 
 export default function HireCTA() {
   return (
-    <Box as="section" py={{ base: 14, md: 20 }} bg="gray.50">
+    <Box as="section" py={{ base: 8, md: 10 }} bg="gray.50">
       <Container maxW="4xl">
         <Box bg="white" rounded="2xl" border="2px solid" borderColor="#AFC7E9" p={{ base: 8, md: 12 }} textAlign="center" shadow="sm">
           <VStack gap={5}>
@@ -27,7 +27,7 @@ export default function HireCTA() {
               _hover={{ bg: "blackAlpha.800" }}
               shadow="md"
             >
-              Keresem a következő kollégámat
+              Konzultáció foglalása
             </Button>
           </VStack>
         </Box>

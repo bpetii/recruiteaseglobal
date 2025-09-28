@@ -8,17 +8,19 @@ import TeamSection from "../../components/TeamSection/TeamSection";
 import WhyChooseUsSection from "../../components/WhyChooseUsSection/WhyChooseUsSection";
 import HireCTA from "@/components/HireCTA/HireCTA";
 import StatsSection from "@/components/StatsSection/StatsSection";
+import TestimonialSpotlight from "@/components/TestimonialSpotlight/TestimonialSpotlight";
 
 export default function HomePage() {
   return (
     <>
       <Hero />
-      <WhyChooseUsSection />
       <StatsSection />
+      <WhyChooseUsSection />
+      <TestimonialSpotlight />
       <ServicesSection />
       <TeamSection />
       <ProductsSection />
-      <Testimonials />
+
       <HireCTA />
       {/* rest of your sections... */}
     </>

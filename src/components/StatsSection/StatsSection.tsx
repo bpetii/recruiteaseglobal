@@ -39,7 +39,7 @@ function StatCard({ value, suffix, label, duration = 4 }: StatProps) {
 
 export default function StatsSection() {
   return (
-    <Box as="section" py={{ base: 8, md: 10 }}>
+    <Box as="section" py={{ base: 8, md: 10 }} bg="gray.50">
       <Container maxW="6xl">
         <SimpleGrid columns={{ base: 1, md: 3 }} gap={{ base: 6, md: 8 }}>
           <StatCard value={6} suffix=" nap" label="Átlagos betöltési idő" />
