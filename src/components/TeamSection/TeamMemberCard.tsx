@@ -10,7 +10,7 @@ type TeamMemberCardProps = {
   href?: string; // optional CTA link (defaults to /konzultacio)
 };
 
-export function TeamMemberCard({ name, role, image, href = "/konzultacio" }: TeamMemberCardProps) {
+export function TeamMemberCard({ name, role, image, href = "/consultation" }: TeamMemberCardProps) {
   return (
     <Box bg="gray.100" rounded={["none", "lg"]} p={{ base: 6, md: 8 }} textAlign="center" shadow="sm">
       {/* Big circular photo */}
