@@ -6,6 +6,7 @@ import ChakraProvider from "./providers/chakra-provider/chakra-provider";
 import QueryClientProvider from "../../QueryClientProvider";
 import { Box, Flex } from "@chakra-ui/react";
 import { Toaster } from "@/components/ui/toaster";
+import { LanguageProvider } from "./providers/language-provider/language-provider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -22,14 +23,16 @@ export default function RootLayout({
       <body>
         <QueryClientProvider>
           <ChakraProvider>
-            <Toaster />
-            <Box h={["100dvh", "100vh"]}>
-              <Flex flexDir="column" justify="center">
-                <Navbar />
-                <Box minH="100dvh">{children}</Box>
-              </Flex>
-              <Footer />
-            </Box>
+            <LanguageProvider>
+              <Toaster />
+              <Box h={["100dvh", "100vh"]}>
+                <Flex flexDir="column" justify="center">
+                  <Navbar />
+                  <Box minH="100dvh">{children}</Box>
+                </Flex>
+                <Footer />
+              </Box>
+            </LanguageProvider>
           </ChakraProvider>
         </QueryClientProvider>
       </body>

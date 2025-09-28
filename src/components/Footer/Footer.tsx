@@ -22,6 +22,7 @@ import { useMutation } from "@tanstack/react-query";
 import { subscribeNewsLetter } from "@/services/apiServices";
 import { toaster } from "../ui/toaster";
 import { Logo } from "../Logo/Logo";
+import LanguageSelector from "../LanguageSelector/LanguageSelector";
 
 /* ---------- language options (Chakra v3 list collection) ---------- */
 const languages = createListCollection({
@@ -200,28 +201,7 @@ export default function Footer() {
               </HStack>
 
               {/* Language switch */}
-              <HStack>
-                <Select.Root defaultValue={["hu"]} collection={languages} size="sm">
-                  <Select.Trigger
-                    rounded="full"
-                    px="3"
-                    bg="whiteAlpha.100"
-                    color="white"
-                    borderColor="whiteAlpha.300"
-                    _hover={{ borderColor: "whiteAlpha.500" }}
-                  >
-                    <IconWorld />
-                    <Select.ValueText placeholder="Nyelv" />
-                  </Select.Trigger>
-                  <Select.Content bg="blackAlpha.300">
-                    {languages.items.map((lang) => (
-                      <Select.Item key={lang.value} item={lang}>
-                        {lang.label}
-                      </Select.Item>
-                    ))}
-                  </Select.Content>
-                </Select.Root>
-              </HStack>
+              <LanguageSelector />
             </VStack>
           </VStack>
         </SimpleGrid>

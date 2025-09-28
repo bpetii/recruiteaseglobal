@@ -6,13 +6,15 @@ import { Box, Container, Flex, HStack, IconButton, Link as ChakraLink, Button, T
 import { IconMenu2, IconX } from "@tabler/icons-react";
 import { useEffect } from "react";
 import { Logo } from "../Logo/Logo";
+import { useTranslation } from "react-i18next";
+import translations from "@/translations";
 
 const LINKS = [
-  { href: "/", label: "Kezdőlap" },
-  { href: "/services", label: "Szolgáltatásaink" },
-  { href: "/packages", label: "Csomagajánlatok" },
-  { href: "/about-us", label: "Rólunk" },
-  { href: "/contact", label: "Kapcsolat" },
+  { href: "/", key: translations.home },
+  { href: "/services", key: translations.services },
+  { href: "/packages", key: translations.packages },
+  { href: "/about-us", key: translations.aboutUs },
+  { href: "/contact", key: translations.contact },
 ];
 
 function NavLink({ href, children, isActive, onClick }: { href: string; children: React.ReactNode; isActive?: boolean; onClick?: () => void }) {
@@ -49,6 +51,7 @@ function NavLink({ href, children, isActive, onClick }: { href: string; children
 }
 
 export default function Navbar() {
+  const { t } = useTranslation();
   const { open, onOpen, onClose } = useDisclosure();
   const pathname = usePathname();
 
@@ -87,12 +90,12 @@ export default function Navbar() {
           <HStack gap={5} display={{ base: "none", lg: "flex" }}>
             {LINKS.map((l) => (
               <NavLink key={l.href} href={l.href} isActive={pathname === l.href}>
-                {l.label}
+                {t(l.key)}
               </NavLink>
             ))}
             <ChakraLink as={NextLink} href="/consultation" _hover={{ textDecoration: "none" }}>
               <Button rounded="full" px={6} py={6} color="blackAlpha.900" bg="#AFC7E9" _hover={{ bg: "#9FBAE4" }} fontWeight={600}>
-                Konzultáció
+                {t(translations.consultation)}
               </Button>
             </ChakraLink>
           </HStack>
@@ -165,7 +168,7 @@ export default function Navbar() {
                   transition="transform .2s ease, opacity .2s ease"
                   style={{ transitionDelay: `${i * 60}ms` }}
                 >
-                  {l.label}
+                  {t(l.key)}
                 </Text>
               </ChakraLink>
             ))}
@@ -175,7 +178,7 @@ export default function Navbar() {
           <Box textAlign="center">
             <ChakraLink as={NextLink} href="/consultation" _hover={{ textDecoration: "none" }} onClick={onClose}>
               <Button w="200px" h="72px" rounded="full" bg="black" color="white" fontSize="xl" _hover={{ bg: "blackAlpha.800" }} shadow="lg">
-                Konzultáció
+                {t(translations.consultation)}
               </Button>
             </ChakraLink>
           </Box>

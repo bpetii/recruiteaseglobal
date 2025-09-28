@@ -4,6 +4,9 @@ import NextLink from "next/link";
 import { Box, Container, Heading, Text, VStack, Button, Link as ChakraLink } from "@chakra-ui/react";
 import { keyframes } from "@chakra-ui/system"; // ✅ v3 location
 import { useEffect, useMemo, useState } from "react";
+import i18n from "i18next";
+import { useTranslation } from "react-i18next";
+import translations from "@/translations";
 
 const GREETINGS = ["Hola", "Hello", "Szia", "Bonjour", "Ciao", "Hallo"];
 
@@ -48,6 +51,8 @@ function AnimatedGreeting() {
  * - bgImage: url to the hero background
  */
 export default function Hero({ bgImage = "/desktop.jpg" }: { bgImage?: string }) {
+  const { t } = useTranslation();
+
   return (
     <Box
       as="section"

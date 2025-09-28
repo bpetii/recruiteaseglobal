@@ -23,6 +23,7 @@
       "@/*": ["./src/*"],
       "@/themes/*": ["./src/app/themes/*"],
       "@/prisma/*": ["./prisma/*"],
+      "@/translations": ["./locales/translation-map.json"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
