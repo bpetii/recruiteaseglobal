@@ -1,11 +1,38 @@
 "use client";
 
+import { sendContact } from "@/services/apiServices";
 import { Box, Container, Grid, GridItem, Heading, Text, VStack, HStack, Image, Input, Textarea, Button } from "@chakra-ui/react";
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
+import { toaster } from "../ui/toaster";
 
 export default function ContactSection() {
   const [form, setForm] = useState({ firstName: "", lastName: "", email: "", message: "" });
   const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setForm((s) => ({ ...s, [e.target.name]: e.target.value }));
+
+  const handleSend = useMutation({
+    mutationFn: async () => {
+      await sendContact(form);
+    },
+    onSuccess: () => {
+      toaster.create({
+        type: "success",
+        title: "Üzenet elküldve",
+        description: "Köszönjük! Hamarosan felvesszük veled a kapcsolatot.",
+        closable: true,
+      });
+
+      setForm({ firstName: "", lastName: "", email: "", message: "" });
+    },
+    onError: (error: any) => {
+      console.log({ ...error });
+      toaster.create({
+        type: "error",
+        title: "Nem sikerült elküldeni",
+        description: error?.message || "Hiba történt a feliratkozás során.",
+      });
+    },
+  });
 
   return (
     <Box>
@@ -62,7 +89,17 @@ export default function ContactSection() {
                 <Textarea name="message" value={form.message} onChange={onChange} minH="180px" resize="vertical" />
               </Box>
 
-              <Button alignSelf="flex-start" rounded="full" bg="black" color="white" px={8} h="12" _hover={{ bg: "blackAlpha.800" }}>
+              <Button
+                onClick={() => handleSend.mutate()}
+                loading={handleSend.isPending}
+                alignSelf="flex-start"
+                rounded="full"
+                bg="black"
+                color="white"
+                px={8}
+                h="12"
+                _hover={{ bg: "blackAlpha.800" }}
+              >
                 KÜLDÉS
               </Button>
             </VStack>

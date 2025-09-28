@@ -21,3 +21,10 @@ export const submitAppointment = async (info: {
     body: info,
   });
 };
+
+export const sendContact = async (form: { firstName: string; lastName: string; email: string; message: string }) => {
+  return await apiClient(`/api/contact`, {
+    method: "POST",
+    body: form,
+  });
+};

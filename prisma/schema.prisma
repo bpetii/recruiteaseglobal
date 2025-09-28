@@ -26,13 +26,12 @@ model Appointment {
 }
 
 model ContactMessage {
-  id          String   @id @default(cuid())
-  firstName   String
-  lastName    String
-  email       String
-  phoneNumber String
-  message     String
-  createdAt   DateTime @default(now())
+  id        String   @id @default(cuid())
+  firstName String
+  lastName  String
+  email     String
+  message   String
+  createdAt DateTime @default(now())
 }
 
 model NewsletterSubscription {

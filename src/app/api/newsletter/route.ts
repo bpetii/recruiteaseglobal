@@ -24,6 +24,6 @@ export async function POST(req: Request) {
     return NextResponse.json(subscription, { status: 201 });
   } catch (err) {
     console.error(err);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+    return NextResponse.json({ error: "Váratlan hiba történt" }, { status: 500 });
   }
 }

@@ -59,6 +59,6 @@ export async function POST(req: Request) {
     return NextResponse.json(appt, { status: 201 });
   } catch (err) {
     console.error("[POST /api/consultation] error:", err);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+    return NextResponse.json({ error: "Váratlan hiba történt" }, { status: 500 });
   }
 }
