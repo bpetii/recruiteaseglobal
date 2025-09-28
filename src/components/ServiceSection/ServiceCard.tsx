@@ -15,7 +15,7 @@ export function ServiceCard({ title, description, image, href }: ServiceCardProp
     <Box
       rounded={["none", "lg"]}
       overflow="hidden"
-      bg="gray.100"
+      bg="white"
       shadow="sm"
       transition="transform .2s ease, box-shadow .2s ease"
       _hover={{ transform: "translateY(-4px)", shadow: "md" }}
