@@ -68,7 +68,7 @@ export default function Navbar() {
       as="header"
       position="sticky"
       top={0}
-      bg="gray.100"
+      bg="transparent"
       right={0}
       left={0}
       py={[5, 5]}
