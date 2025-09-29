@@ -1,8 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { Box, Container, Heading, Text, SimpleGrid, Card, Button, HStack, Input, Badge, Table } from "@chakra-ui/react";
-import { IconDownload } from "@tabler/icons-react";
+import { Box, Container, Heading, Text, SimpleGrid, Card, Button, HStack, Input, Badge, Table, VStack } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
+import { logout } from "@/services/apiServices";
 
 // If you have Prisma client types, you can import them:
 // import { Appointment, ContactMessage, NewsletterSubscription } from "@prisma/client";
@@ -81,6 +82,7 @@ export default function AdminDashboard({
   subscriptions: NewsletterSubscription[];
 }) {
   // local filters
+  const router = useRouter();
   const [search, setSearch] = React.useState("");
 
   const apptFiltered = React.useMemo(() => {
@@ -102,6 +104,17 @@ export default function AdminDashboard({
     const q = search.toLowerCase();
     return subscriptions.filter((s) => [s.email].some((v) => String(v).toLowerCase().includes(q)));
   }, [subscriptions, search]);
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+
+      router.push("/admin/login");
+      router.refresh();
+    } catch (e: any) {
+      console.error(e.message || "Ismeretlen hiba");
+    }
+  };
 
   const exportAppointments = () => {
     const csv = toCSV(
@@ -148,180 +161,188 @@ export default function AdminDashboard({
   return (
     <Box py={{ base: 10, md: 14 }}>
       <Container maxW="7xl">
-        <Heading mb={2} fontWeight={800}>
-          Admin
-        </Heading>
-        <Text color="gray.600" mb={6}>
-          Áttekintés: időpontok, kapcsolatfelvételek, feliratkozások
-        </Text>
+        <VStack align="stretch" p={8} gap={6}>
+          <HStack justify="space-between">
+            <Heading size="lg">Admin Dashboard</Heading>
+            <Button variant="outline" colorScheme="red" onClick={handleLogout}>
+              Kijelentkezés
+            </Button>
+          </HStack>
+          <Heading mb={2} fontWeight={800}>
+            Admin
+          </Heading>
+          <Text color="gray.600" mb={6}>
+            Áttekintés: időpontok, kapcsolatfelvételek, feliratkozások
+          </Text>
 
-        {/* quick stats */}
-        <SimpleGrid columns={{ base: 1, md: 3 }} gap={4} mb={8}>
-          <Card.Root p={5} shadow="sm" borderColor="blackAlpha.100">
-            <Card.Title>Időpontok</Card.Title>
-            <Card.Description>
-              <Heading size="lg">{appointments.length}</Heading>
-            </Card.Description>
-          </Card.Root>
+          {/* quick stats */}
+          <SimpleGrid columns={{ base: 1, md: 3 }} gap={4} mb={8}>
+            <Card.Root p={5} shadow="sm" borderColor="blackAlpha.100">
+              <Card.Title>Időpontok</Card.Title>
+              <Card.Description>
+                <Heading size="lg">{appointments.length}</Heading>
+              </Card.Description>
+            </Card.Root>
 
-          <Card.Root p={5} shadow="sm" borderColor="blackAlpha.100">
-            <Card.Title>Kapcsolatfelvételek</Card.Title>
-            <Card.Description>
-              <Heading size="lg">{messages.length}</Heading>
-            </Card.Description>
-          </Card.Root>
+            <Card.Root p={5} shadow="sm" borderColor="blackAlpha.100">
+              <Card.Title>Kapcsolatfelvételek</Card.Title>
+              <Card.Description>
+                <Heading size="lg">{messages.length}</Heading>
+              </Card.Description>
+            </Card.Root>
 
-          <Card.Root p={5} shadow="sm" borderColor="blackAlpha.100">
-            <Card.Title>Hírlevél feliratkozók</Card.Title>
-            <Card.Description>
-              <Heading size="lg">{subscriptions.length}</Heading>
-            </Card.Description>
-          </Card.Root>
-        </SimpleGrid>
+            <Card.Root p={5} shadow="sm" borderColor="blackAlpha.100">
+              <Card.Title>Hírlevél feliratkozók</Card.Title>
+              <Card.Description>
+                <Heading size="lg">{subscriptions.length}</Heading>
+              </Card.Description>
+            </Card.Root>
+          </SimpleGrid>
 
-        {/* search & actions */}
-        <HStack mb={6} gap={3} flexWrap="wrap">
-          <Input
-            placeholder="Keresés (név, e-mail, telefon, megjegyzés...)"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            maxW={{ base: "full", md: "24rem" }}
-          />
-        </HStack>
+          {/* search & actions */}
+          <HStack mb={6} gap={3} flexWrap="wrap">
+            <Input
+              placeholder="Keresés (név, e-mail, telefon, megjegyzés...)"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              maxW={{ base: "full", md: "24rem" }}
+            />
+          </HStack>
 
-        {/* Appointments */}
-        <Card.Root mb={8} p={0} overflow="hidden" borderColor="blackAlpha.100">
-          <Card.Header px={5} py={4}>
-            <HStack justify="space-between" w="full">
-              <HStack gap={3}>
-                <Heading size="md">Időpontok</Heading>
-                <Badge colorPalette="green">{apptFiltered.length}</Badge>
-              </HStack>
-              {/*  <Button onClick={exportAppointments} leftIcon={<IconDownload size={18} />} variant="subtle">
+          {/* Appointments */}
+          <Card.Root mb={8} p={0} overflow="hidden" borderColor="blackAlpha.100">
+            <Card.Header px={5} py={4}>
+              <HStack justify="space-between" w="full">
+                <HStack gap={3}>
+                  <Heading size="md">Időpontok</Heading>
+                  <Badge colorPalette="green">{apptFiltered.length}</Badge>
+                </HStack>
+                {/*  <Button onClick={exportAppointments} leftIcon={<IconDownload size={18} />} variant="subtle">
                 Export (CSV)
               </Button> */}
-            </HStack>
-          </Card.Header>
-          <Card.Body px={0} pb={0}>
-            <Table.Root size="sm">
-              <Table.Header>
-                <Table.Row>
-                  <Table.ColumnHeader>Név</Table.ColumnHeader>
-                  <Table.ColumnHeader>E-mail</Table.ColumnHeader>
-                  <Table.ColumnHeader>Telefon</Table.ColumnHeader>
-                  <Table.ColumnHeader>Dátum</Table.ColumnHeader>
-                  <Table.ColumnHeader>Idő</Table.ColumnHeader>
-                  <Table.ColumnHeader>Időzóna</Table.ColumnHeader>
-                </Table.Row>
-              </Table.Header>
-              <Table.Body>
-                {apptFiltered.map((a) => (
-                  <Table.Row key={String(a.id)}>
-                    <Table.Cell>{a.name ?? "-"}</Table.Cell>
-                    <Table.Cell>{a.email ?? "-"}</Table.Cell>
-                    <Table.Cell>{a.phoneNumber ?? "-"}</Table.Cell>
-                    <Table.Cell>{typeof a.date === "string" ? a.date : formatDate(a.date)}</Table.Cell>
-                    <Table.Cell>{a.time}</Table.Cell>
-                    <Table.Cell>{a.timezone ?? "Europe/Budapest"}</Table.Cell>
-                  </Table.Row>
-                ))}
-                {!apptFiltered.length && (
-                  <Table.Row>
-                    <Table.Cell colSpan={6} textAlign="center" py={8}>
-                      Nincs találat.
-                    </Table.Cell>
-                  </Table.Row>
-                )}
-              </Table.Body>
-            </Table.Root>
-          </Card.Body>
-        </Card.Root>
-
-        {/* Contact messages */}
-        <Card.Root mb={8} p={0} overflow="hidden" borderColor="blackAlpha.100">
-          <Card.Header px={5} py={4}>
-            <HStack justify="space-between" w="full">
-              <HStack gap={3}>
-                <Heading size="md">Kapcsolatfelvételek</Heading>
-                <Badge colorPalette="blue">{msgFiltered.length}</Badge>
               </HStack>
-              {/* <Button onClick={exportMessages} leftIcon={<IconDownload size={18} />} variant="subtle">
+            </Card.Header>
+            <Card.Body px={0} pb={0}>
+              <Table.Root size="sm">
+                <Table.Header>
+                  <Table.Row>
+                    <Table.ColumnHeader>Név</Table.ColumnHeader>
+                    <Table.ColumnHeader>E-mail</Table.ColumnHeader>
+                    <Table.ColumnHeader>Telefon</Table.ColumnHeader>
+                    <Table.ColumnHeader>Dátum</Table.ColumnHeader>
+                    <Table.ColumnHeader>Idő</Table.ColumnHeader>
+                    <Table.ColumnHeader>Időzóna</Table.ColumnHeader>
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                  {apptFiltered.map((a) => (
+                    <Table.Row key={String(a.id)}>
+                      <Table.Cell>{a.name ?? "-"}</Table.Cell>
+                      <Table.Cell>{a.email ?? "-"}</Table.Cell>
+                      <Table.Cell>{a.phoneNumber ?? "-"}</Table.Cell>
+                      <Table.Cell>{typeof a.date === "string" ? a.date : formatDate(a.date)}</Table.Cell>
+                      <Table.Cell>{a.time}</Table.Cell>
+                      <Table.Cell>{a.timezone ?? "Europe/Budapest"}</Table.Cell>
+                    </Table.Row>
+                  ))}
+                  {!apptFiltered.length && (
+                    <Table.Row>
+                      <Table.Cell colSpan={6} textAlign="center" py={8}>
+                        Nincs találat.
+                      </Table.Cell>
+                    </Table.Row>
+                  )}
+                </Table.Body>
+              </Table.Root>
+            </Card.Body>
+          </Card.Root>
+
+          {/* Contact messages */}
+          <Card.Root mb={8} p={0} overflow="hidden" borderColor="blackAlpha.100">
+            <Card.Header px={5} py={4}>
+              <HStack justify="space-between" w="full">
+                <HStack gap={3}>
+                  <Heading size="md">Kapcsolatfelvételek</Heading>
+                  <Badge colorPalette="blue">{msgFiltered.length}</Badge>
+                </HStack>
+                {/* <Button onClick={exportMessages} leftIcon={<IconDownload size={18} />} variant="subtle">
                 Export (CSV)
               </Button> */}
-            </HStack>
-          </Card.Header>
-          <Card.Body px={0} pb={0}>
-            <Table.Root size="sm">
-              <Table.Header>
-                <Table.Row>
-                  <Table.ColumnHeader>Név</Table.ColumnHeader>
-                  <Table.ColumnHeader>E-mail</Table.ColumnHeader>
-                  <Table.ColumnHeader>Üzenet</Table.ColumnHeader>
-                  <Table.ColumnHeader>Érkezett</Table.ColumnHeader>
-                </Table.Row>
-              </Table.Header>
-              <Table.Body>
-                {msgFiltered.map((m) => (
-                  <Table.Row key={String(m.id)}>
-                    <Table.Cell>{[m.firstName, m.lastName].filter(Boolean).join(" ") || "-"}</Table.Cell>
-                    <Table.Cell>{m.email}</Table.Cell>
-                    <Table.Cell maxW="lg">
-                      <Text>{m.message ?? "-"}</Text>
-                    </Table.Cell>
-                    <Table.Cell>{formatDate(m.createdAt)}</Table.Cell>
-                  </Table.Row>
-                ))}
-                {!msgFiltered.length && (
-                  <Table.Row>
-                    <Table.Cell colSpan={4} textAlign="center" py={8}>
-                      Nincs találat.
-                    </Table.Cell>
-                  </Table.Row>
-                )}
-              </Table.Body>
-            </Table.Root>
-          </Card.Body>
-        </Card.Root>
-
-        {/* Newsletter */}
-        <Card.Root p={0} overflow="hidden" borderColor="blackAlpha.100">
-          <Card.Header px={5} py={4}>
-            <HStack justify="space-between" w="full">
-              <HStack gap={3}>
-                <Heading size="md">Hírlevél feliratkozók</Heading>
-                <Badge colorPalette="purple">{subFiltered.length}</Badge>
               </HStack>
-              {/*   <Button onClick={exportSubscriptions} leftIcon={<IconDownload size={18} />} variant="subtle">
+            </Card.Header>
+            <Card.Body px={0} pb={0}>
+              <Table.Root size="sm">
+                <Table.Header>
+                  <Table.Row>
+                    <Table.ColumnHeader>Név</Table.ColumnHeader>
+                    <Table.ColumnHeader>E-mail</Table.ColumnHeader>
+                    <Table.ColumnHeader>Üzenet</Table.ColumnHeader>
+                    <Table.ColumnHeader>Érkezett</Table.ColumnHeader>
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                  {msgFiltered.map((m) => (
+                    <Table.Row key={String(m.id)}>
+                      <Table.Cell>{[m.firstName, m.lastName].filter(Boolean).join(" ") || "-"}</Table.Cell>
+                      <Table.Cell>{m.email}</Table.Cell>
+                      <Table.Cell maxW="lg">
+                        <Text>{m.message ?? "-"}</Text>
+                      </Table.Cell>
+                      <Table.Cell>{formatDate(m.createdAt)}</Table.Cell>
+                    </Table.Row>
+                  ))}
+                  {!msgFiltered.length && (
+                    <Table.Row>
+                      <Table.Cell colSpan={4} textAlign="center" py={8}>
+                        Nincs találat.
+                      </Table.Cell>
+                    </Table.Row>
+                  )}
+                </Table.Body>
+              </Table.Root>
+            </Card.Body>
+          </Card.Root>
+
+          {/* Newsletter */}
+          <Card.Root p={0} overflow="hidden" borderColor="blackAlpha.100">
+            <Card.Header px={5} py={4}>
+              <HStack justify="space-between" w="full">
+                <HStack gap={3}>
+                  <Heading size="md">Hírlevél feliratkozók</Heading>
+                  <Badge colorPalette="purple">{subFiltered.length}</Badge>
+                </HStack>
+                {/*   <Button onClick={exportSubscriptions} leftIcon={<IconDownload size={18} />} variant="subtle">
                 Export (CSV)
               </Button> */}
-            </HStack>
-          </Card.Header>
-          <Card.Body px={0} pb={0}>
-            <Table.Root size="sm">
-              <Table.Header>
-                <Table.Row>
-                  <Table.ColumnHeader>E-mail</Table.ColumnHeader>
-                  <Table.ColumnHeader>Feliratkozott</Table.ColumnHeader>
-                </Table.Row>
-              </Table.Header>
-              <Table.Body>
-                {subFiltered.map((s) => (
-                  <Table.Row key={String(s.id)}>
-                    <Table.Cell>{s.email}</Table.Cell>
-                    <Table.Cell>{formatDate(s.createdAt)}</Table.Cell>
-                  </Table.Row>
-                ))}
-                {!subFiltered.length && (
+              </HStack>
+            </Card.Header>
+            <Card.Body px={0} pb={0}>
+              <Table.Root size="sm">
+                <Table.Header>
                   <Table.Row>
-                    <Table.Cell colSpan={2} textAlign="center" py={8}>
-                      Nincs találat.
-                    </Table.Cell>
+                    <Table.ColumnHeader>E-mail</Table.ColumnHeader>
+                    <Table.ColumnHeader>Feliratkozott</Table.ColumnHeader>
                   </Table.Row>
-                )}
-              </Table.Body>
-            </Table.Root>
-          </Card.Body>
-        </Card.Root>
+                </Table.Header>
+                <Table.Body>
+                  {subFiltered.map((s) => (
+                    <Table.Row key={String(s.id)}>
+                      <Table.Cell>{s.email}</Table.Cell>
+                      <Table.Cell>{formatDate(s.createdAt)}</Table.Cell>
+                    </Table.Row>
+                  ))}
+                  {!subFiltered.length && (
+                    <Table.Row>
+                      <Table.Cell colSpan={2} textAlign="center" py={8}>
+                        Nincs találat.
+                      </Table.Cell>
+                    </Table.Row>
+                  )}
+                </Table.Body>
+              </Table.Root>
+            </Card.Body>
+          </Card.Root>
+        </VStack>
       </Container>
     </Box>
   );

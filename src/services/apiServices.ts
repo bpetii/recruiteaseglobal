@@ -28,3 +28,16 @@ export const sendContact = async (form: { firstName: string; lastName: string; e
     body: form,
   });
 };
+
+export const login = async (password: string) => {
+  return await apiClient(`/api/admin/login`, {
+    method: "POST",
+    body: { password },
+  });
+};
+
+export const logout = async () => {
+  return await apiClient(`/api/admin/logout`, {
+    method: "POST",
+  });
+};
