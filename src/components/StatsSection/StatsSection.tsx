@@ -13,7 +13,7 @@ type StatProps = {
   duration?: number;
 };
 
-function StatCard({ value, suffix, label, duration = 4 }: StatProps) {
+function StatCard({ value, suffix, label, duration = 7 }: StatProps) {
   return (
     <MotionBox
       whileInView={{ opacity: [0, 1], y: [12, 0] }}

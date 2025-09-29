@@ -19,7 +19,7 @@ export default function HomePage() {
       <TestimonialSpotlight />
       <ServicesSection />
       <TeamSection />
-      <ProductsSection />
+{/*       <ProductsSection /> */}
 
       <HireCTA />
       {/* rest of your sections... */}

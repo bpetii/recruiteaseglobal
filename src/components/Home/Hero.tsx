@@ -32,13 +32,11 @@ function AnimatedGreeting() {
       as="span"
       fontWeight="700"
       letterSpacing="wide"
-      fontSize={{ base: "4xl", md: "5xl" }}
+      fontSize={{ base: "7xl", md: "8xl" }}
       color="white"
       px={3}
       py={1}
       borderRadius="full"
-      bg="whiteAlpha.200"
-      backdropFilter="saturate(140%) blur(4px)"
       display="inline-block"
     >
       {GREETINGS[i]} 👋
@@ -78,37 +76,45 @@ export default function Hero({ bgImage = "/desktop.jpg" }: { bgImage?: string })
       }}
     >
       <Container position="relative" zIndex={1}>
-        <VStack gap={{ base: 6, md: 8 }} textAlign="center" align="center" maxW="full">
+        <VStack gap={{ base: 6, md: 16 }} textAlign="center" align="center" maxW="full">
           {/* Animated greeting chip */}
           <AnimatedGreeting />
-
-          <Heading as="h1" color="white" fontWeight="700" letterSpacing="-0.02em" lineHeight="1.05" fontSize={{ base: "5xl", md: "6xl", lg: "7xl" }}>
-            Connect talents worldwide!
-          </Heading>
-
-          <Text fontWeight="700" color="white" fontSize={{ base: "lg", md: "xl" }}>
-            Toborzás határok nélkül. Tehetségek, akik mozgásban tartják a világot.
-          </Text>
-
-          <Text color="whiteAlpha.900" fontSize={{ base: "md", md: "xl" }} maxW="3xl">
-            A RecruitEase Global a nemzetközi fejvadászat és HR szolgáltatások szakértője – vízumügyintézéstől az onboardingig.
-          </Text>
-
-          <ChakraLink as={NextLink} href="/consultation" _hover={{ textDecoration: "none" }}>
-            <Button
-              rounded="full"
-              px={{ base: 8, md: 10 }}
-              h={{ base: 12, md: 14 }}
-              fontSize={{ base: "md", md: "lg" }}
+          <VStack gap={{ base: 6, md: 8 }} textAlign="center" align="center" maxW="full">
+            <Heading
+              as="h1"
+              color="white"
               fontWeight="700"
-              bg="#AFC7E9"
-              color="blackAlpha.900"
-              _hover={{ bg: "#9FBAE4" }}
-              shadow="md"
+              letterSpacing="-0.02em"
+              lineHeight="1.05"
+              fontSize={{ base: "5xl", md: "6xl", lg: "7xl" }}
             >
-              KONZULTÁCIÓT KÉREK
-            </Button>
-          </ChakraLink>
+              Connecting talents worldwide!
+            </Heading>
+
+            <Text fontWeight="700" color="white" fontSize={{ base: "lg", md: "xl" }}>
+              Toborzás határok nélkül. Tehetségek, akik mozgásban tartják a világot.
+            </Text>
+
+            <Text color="whiteAlpha.900" fontSize={{ base: "md", md: "xl" }} maxW="3xl">
+              A RecruitEase Global a nemzetközi fejvadászat és HR szolgáltatások szakértője – vízumügyintézéstől az onboardingig.
+            </Text>
+
+            <ChakraLink as={NextLink} href="/consultation" _hover={{ textDecoration: "none" }}>
+              <Button
+                rounded="full"
+                px={{ base: 8, md: 10 }}
+                h={{ base: 12, md: 14 }}
+                fontSize={{ base: "md", md: "lg" }}
+                fontWeight="700"
+                bg="#AFC7E9"
+                color="blackAlpha.900"
+                _hover={{ bg: "#9FBAE4" }}
+                shadow="md"
+              >
+                KONZULTÁCIÓT KÉREK
+              </Button>
+            </ChakraLink>
+          </VStack>
         </VStack>
       </Container>
     </Box>
