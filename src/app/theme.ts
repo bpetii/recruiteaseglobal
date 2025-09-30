@@ -1,13 +1,16 @@
-// src/app/theme.ts
-import { createSystem, defaultConfig } from "@chakra-ui/react";
-import { inputRecipe } from "@/themes/input";
+// app/theme.ts
+import { createSystem, defaultConfig, defineConfig } from "@chakra-ui/react";
+import { inputRecipe } from "./themes/recipes/input";
+import { textareaRecipe } from "./themes/recipes/textarea";
 
-export const system = createSystem(defaultConfig, {
+const config = defineConfig({
   theme: {
     recipes: {
-      Input: inputRecipe, // 🔑 attach recipe to Input
+      input: inputRecipe,
+      textarea: textareaRecipe,
     },
   },
 });
 
+export const system = createSystem(defaultConfig, config);
 export default system;

@@ -241,7 +241,7 @@ export default function ConsultationLayout({ appointments }: { appointments: App
 
             <Box>
               <Text mb={2} fontWeight="600">
-                Email cím
+                E-mail cím
               </Text>
               <Input type="email" name="email" value={info.email} onChange={onChange} placeholder="pl. te@ceged.hu" />
             </Box>
