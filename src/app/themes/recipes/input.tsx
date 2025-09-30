@@ -7,7 +7,6 @@ export const inputRecipe = defineRecipe({
     borderRadius: "xl",
     borderWidth: "1px",
     borderColor: "gray.200",
-    bg: "red",
     _hover: { borderColor: "gray.300" },
     color: "gray.900",
     _focusVisible: {
@@ -22,6 +21,7 @@ export const inputRecipe = defineRecipe({
       outline: {
         field: {
           borderColor: "gray.200",
+          background: "red",
         },
       },
       filled: {

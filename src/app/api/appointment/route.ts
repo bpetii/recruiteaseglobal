@@ -6,6 +6,9 @@ import { NextResponse } from "next/server";
 // Adjust the import to wherever your singleton lives:
 // import { prisma } from "@/lib/prisma";
 import prisma from "@/prisma/client"; // <- if you put it under /prisma/client.ts
+import { AppointmentEmail } from "@/components/EmailTemplate/AppointmentEmail/AppointmentEmail";
+import { resend } from "@/lib/resend";
+import { sendAppointmentEmail } from "@/lib/resend/emails/sendAppointmentEmail";
 
 type Body = {
   name: string;
@@ -55,6 +58,8 @@ export async function POST(req: Request) {
         timezone,
       },
     });
+
+    await sendAppointmentEmail({ email, name, notes, date, time });
 
     return NextResponse.json(appt, { status: 201 });
   } catch (err) {

@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
 import prisma from "@/prisma/client";
+import { resend } from "@/lib/resend";
+import { ContactEmail } from "@/components/EmailTemplate/ContactEmail/ContactEmail";
+import { sendContactEmail } from "@/lib/resend/emails/sendContactEmail";
 
 type ContactBody = {
   firstName: string;
@@ -65,6 +68,8 @@ export async function POST(req: Request) {
         message,
       },
     });
+
+    await sendContactEmail({ firstName, lastName, email, message });
 
     return NextResponse.json(
       {

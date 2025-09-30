@@ -27,3 +27,28 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Váratlan hiba történt" }, { status: 500 });
   }
 }
+
+export async function DELETE(req: Request) {
+  try {
+    const { email } = await req.json();
+
+    if (!email || typeof email !== "string") {
+      return NextResponse.json({ error: "Email is required" }, { status: 400 });
+    }
+
+    const existing = await prisma.newsletterSubscription.findUnique({ where: { email } });
+
+    if (!existing) {
+      return NextResponse.json({ error: "Ez az e-mail cím nem létezik a feliratkozások között" }, { status: 400 });
+    }
+
+    await prisma.newsletterSubscription.delete({
+      where: { email },
+    });
+
+    return NextResponse.json({ status: 201 });
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json({ error: "Váratlan hiba történt" }, { status: 500 });
+  }
+}
