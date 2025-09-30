@@ -1,40 +1,18 @@
 "use client";
 
 import * as React from "react";
-import { Box, Container, Heading, Text, SimpleGrid, Card, Button, HStack, Input, Badge, Table, VStack } from "@chakra-ui/react";
+import { Box, Container, Heading, Text, SimpleGrid, Card, Button, HStack, Input, Badge, Table, VStack, Menu, Portal } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import { logout } from "@/services/apiServices";
+import { acceptAppointment, logout, rejectAppointment } from "@/services/apiServices";
+import { Appointment, AppointmentStatus, ContactMessage, NewsletterSubscription } from "@prisma/client";
+import { IconArrowDown, IconChevronDown } from "@tabler/icons-react";
+import { useMutation } from "@tanstack/react-query";
+import { toaster } from "../ui/toaster";
 
 // If you have Prisma client types, you can import them:
 // import { Appointment, ContactMessage, NewsletterSubscription } from "@prisma/client";
 
 // Minimal shapes to keep this portable
-type Appointment = {
-  id: string | number;
-  name?: string | null;
-  email?: string | null;
-  phoneNumber?: string | null;
-  notes?: string | null;
-  date: Date | string; // from server
-  time: string;
-  timezone?: string | null;
-  createdAt?: Date | string;
-};
-
-type ContactMessage = {
-  id: string | number;
-  firstName?: string | null;
-  lastName?: string | null;
-  email: string;
-  message?: string | null;
-  createdAt: Date | string;
-};
-
-type NewsletterSubscription = {
-  id: string | number;
-  email: string;
-  createdAt: Date | string;
-};
 
 function formatDate(d: Date | string) {
   try {
@@ -49,27 +27,6 @@ function formatDate(d: Date | string) {
   } catch {
     return String(d);
   }
-}
-
-function toCSV(rows: Record<string, any>[]) {
-  if (!rows.length) return "";
-  const headers = Object.keys(rows[0]);
-  const esc = (v: any) =>
-    `"${String(v ?? "")
-      .replace(/"/g, '""')
-      .replace(/\n/g, " ")}"`;
-  const lines = [headers.join(","), ...rows.map((r) => headers.map((h) => esc(r[h])).join(","))];
-  return lines.join("\n");
-}
-
-function downloadCSV(filename: string, csv: string) {
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  a.click();
-  URL.revokeObjectURL(url);
 }
 
 export default function AdminDashboard({
@@ -116,47 +73,64 @@ export default function AdminDashboard({
     }
   };
 
-  const exportAppointments = () => {
-    const csv = toCSV(
-      apptFiltered.map((a) => ({
-        id: a.id,
-        name: a.name ?? "",
-        email: a.email ?? "",
-        phoneNumber: a.phoneNumber ?? "",
-        date: typeof a.date === "string" ? a.date : a.date.toISOString(),
-        time: a.time,
-        timezone: a.timezone ?? "",
-        notes: a.notes ?? "",
-        createdAt: a.createdAt && typeof a.createdAt !== "string" ? a.createdAt.toISOString() : a.createdAt ?? "",
-      }))
-    );
-    downloadCSV("appointments.csv", csv);
-  };
+  function statusColor(s?: AppointmentStatus) {
+    switch (s) {
+      case AppointmentStatus.ACCEPTED:
+        return "green";
+      case AppointmentStatus.REJECTED:
+        return "red";
+      case AppointmentStatus.PENDING:
+        return "yellow";
+      default:
+        return "gray";
+    }
+  }
 
-  const exportMessages = () => {
-    const csv = toCSV(
-      msgFiltered.map((m) => ({
-        id: m.id,
-        firstName: m.firstName ?? "",
-        lastName: m.lastName ?? "",
-        email: m.email,
-        message: m.message ?? "",
-        createdAt: m.createdAt && typeof m.createdAt !== "string" ? m.createdAt.toISOString() : m.createdAt ?? "",
-      }))
-    );
-    downloadCSV("contact_messages.csv", csv);
-  };
+  const handleAccept = useMutation({
+    mutationFn: async (id: string) => {
+      await acceptAppointment(id);
+    },
+    onSuccess: () => {
+      toaster.create({
+        type: "success",
+        title: "Időpont elfogadva",
+        closable: true,
+      });
 
-  const exportSubscriptions = () => {
-    const csv = toCSV(
-      subFiltered.map((s) => ({
-        id: s.id,
-        email: s.email,
-        createdAt: s.createdAt && typeof s.createdAt !== "string" ? s.createdAt.toISOString() : s.createdAt ?? "",
-      }))
-    );
-    downloadCSV("newsletter_subscriptions.csv", csv);
-  };
+      router.refresh();
+    },
+    onError: (error: any) => {
+      console.log({ ...error });
+      toaster.create({
+        type: "error",
+        title: "Nem sikerült elfogadni az időpontot",
+        description: error?.message || "Hiba történt",
+      });
+    },
+  });
+
+  const handleReject = useMutation({
+    mutationFn: async (id: string) => {
+      await rejectAppointment(id);
+    },
+    onSuccess: () => {
+      toaster.create({
+        type: "success",
+        title: "Időpont elutasítva",
+        closable: true,
+      });
+
+      router.refresh();
+    },
+    onError: (error: any) => {
+      console.log({ ...error });
+      toaster.create({
+        type: "error",
+        title: "Nem sikerült elutasítani az időpontot",
+        description: error?.message || "Hiba történt",
+      });
+    },
+  });
 
   return (
     <Box py={{ base: 10, md: 14 }}>
@@ -232,6 +206,8 @@ export default function AdminDashboard({
                     <Table.ColumnHeader>Dátum</Table.ColumnHeader>
                     <Table.ColumnHeader>Idő</Table.ColumnHeader>
                     <Table.ColumnHeader>Időzóna</Table.ColumnHeader>
+                    <Table.ColumnHeader>Státusz</Table.ColumnHeader> {/* NEW */}
+                    <Table.ColumnHeader>Műveletek</Table.ColumnHeader> {/* NEW */}
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -243,6 +219,45 @@ export default function AdminDashboard({
                       <Table.Cell>{typeof a.date === "string" ? a.date : formatDate(a.date)}</Table.Cell>
                       <Table.Cell>{a.time}</Table.Cell>
                       <Table.Cell>{a.timezone ?? "Europe/Budapest"}</Table.Cell>
+                      {/* Status badge */}
+                      <Table.Cell>
+                        <Badge colorPalette={statusColor(a.status)} variant="subtle">
+                          {a.status ?? "PENDING"}
+                        </Badge>
+                      </Table.Cell>
+
+                      {/* Actions menu (Chakra v3) */}
+                      <Table.Cell>
+                        <Menu.Root>
+                          <Menu.Trigger asChild>
+                            <Button
+                              size="xs"
+                              variant="outline"
+                              rounded="full"
+                              px="3"
+                              bg="white"
+                              borderColor="blackAlpha.300"
+                              _hover={{ bg: "blackAlpha.50", borderColor: "blackAlpha.400" }}
+                            >
+                              Művelet
+                            </Button>
+                          </Menu.Trigger>
+                          <Portal>
+                            <Menu.Positioner>
+                              {a.status === AppointmentStatus.PENDING && (
+                                <Menu.Content>
+                                  <Menu.Item onClick={() => handleAccept.mutate(a.id)} value="accept">
+                                    Elfogadás
+                                  </Menu.Item>
+                                  <Menu.Item onClick={() => handleReject.mutate(a.id)} value="reject">
+                                    Elutasítás
+                                  </Menu.Item>
+                                </Menu.Content>
+                              )}
+                            </Menu.Positioner>
+                          </Portal>
+                        </Menu.Root>
+                      </Table.Cell>
                     </Table.Row>
                   ))}
                   {!apptFiltered.length && (

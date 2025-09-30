@@ -41,3 +41,15 @@ export const logout = async () => {
     method: "POST",
   });
 };
+
+export const acceptAppointment = async (id: string) => {
+  return await apiClient(`/api/appointment/${id}/accept`, {
+    method: "PATCH",
+  });
+};
+
+export const rejectAppointment = async (id: string) => {
+  return await apiClient(`/api/appointment/${id}/reject`, {
+    method: "PATCH",
+  });
+};

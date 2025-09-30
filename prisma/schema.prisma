@@ -13,16 +13,23 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum AppointmentStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
 model Appointment {
-  id          String   @id @default(cuid())
+  id          String            @id @default(cuid())
   name        String
   email       String
   phoneNumber String?
   notes       String?
-  date        DateTime @db.Date
+  date        DateTime          @db.Date
   time        String
   timezone    String
-  createdAt   DateTime @default(now())
+  status      AppointmentStatus @default(PENDING)
+  createdAt   DateTime          @default(now())
 }
 
 model ContactMessage {
