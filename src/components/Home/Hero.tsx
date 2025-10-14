@@ -51,7 +51,7 @@ function AnimatedGreeting() {
  * Props:
  * - bgImage: url to the hero background
  */
-export default function Hero({ bgImage = "/desktop.jpg" }: { bgImage?: string }) {
+export default function Hero({ bgImage = "/desktop.webp" }: { bgImage?: string }) {
   const { t } = useTranslation();
 
   return (
