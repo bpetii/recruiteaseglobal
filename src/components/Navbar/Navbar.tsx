@@ -161,7 +161,7 @@ export default function Navbar() {
             {LINKS.map((l, i) => (
               <ChakraLink key={l.href} as={NextLink} href={l.href} onClick={onClose} _hover={{ textDecoration: "none" }}>
                 <Text
-                  fontSize="5xl"
+                  fontSize="2xl"
                   lineHeight="1.1"
                   fontWeight={500}
                   color="black"
@@ -177,7 +177,7 @@ export default function Navbar() {
           {/* CTA button */}
           <Box textAlign="center">
             <ChakraLink as={NextLink} href="/consultation" _hover={{ textDecoration: "none" }} onClick={onClose}>
-              <Button w="200px" h="72px" rounded="full" bg="black" color="white" fontSize="xl" _hover={{ bg: "blackAlpha.800" }} shadow="lg">
+              <Button w="200px" py={7} rounded="full" bg="black" color="white" fontSize="lg" _hover={{ bg: "blackAlpha.800" }} shadow="lg">
                 {t(translations.consultation)}
               </Button>
             </ChakraLink>

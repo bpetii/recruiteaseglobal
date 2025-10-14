@@ -32,7 +32,10 @@ function AnimatedGreeting() {
       as="span"
       fontWeight="700"
       letterSpacing="wide"
-      fontSize={{ base: "7xl", md: "8xl" }}
+      fontSize={{ base: "5xl", md: "8xl" }}
+      bgGradient="linear(to-r, #1b1a19, #2a2827, #2f2d2c)"
+      bgClip="padding-box"
+      backdropFilter="saturate(140%) blur(6px)"
       color="white"
       px={3}
       py={1}
