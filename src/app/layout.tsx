@@ -6,6 +6,7 @@ import ChakraProvider from "./providers/chakra-provider/chakra-provider";
 import QueryClientProvider from "../../QueryClientProvider";
 import { Box, Flex } from "@chakra-ui/react";
 import { Toaster } from "@/components/ui/toaster";
+import { Analytics } from "@vercel/analytics/next";
 import { LanguageProvider } from "./providers/language-provider/language-provider";
 
 export const metadata: Metadata = {
@@ -23,9 +24,10 @@ export default function RootLayout({
       <body>
         <QueryClientProvider>
           <ChakraProvider>
+            <Analytics />
             <LanguageProvider>
               <Toaster />
-              <Box h={["100dvh", "100vh"]}>
+              <Box h={["100dvh", "100dvh"]}>
                 <Flex flexDir="column" justify="center">
                   <Navbar />
                   <Box minH="100dvh">{children}</Box>

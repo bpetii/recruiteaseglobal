@@ -8,6 +8,7 @@ import { Appointment, AppointmentStatus, ContactMessage, NewsletterSubscription 
 import { IconArrowDown, IconChevronDown } from "@tabler/icons-react";
 import { useMutation } from "@tanstack/react-query";
 import { toaster } from "../ui/toaster";
+import { APPOINTMENT_STATUS } from "@/app/enums";
 
 // If you have Prisma client types, you can import them:
 // import { Appointment, ContactMessage, NewsletterSubscription } from "@prisma/client";
@@ -222,7 +223,7 @@ export default function AdminDashboard({
                       {/* Status badge */}
                       <Table.Cell>
                         <Badge colorPalette={statusColor(a.status)} variant="subtle">
-                          {a.status ?? "PENDING"}
+                          {APPOINTMENT_STATUS[a.status]}
                         </Badge>
                       </Table.Cell>
 
